@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const skillerbotPrompt = `
@@ -22,7 +22,7 @@ Never invent drills. Be short, clear, and supportive. Use emojis like ⚽🔥✅
 
 // General Chat Endpoint
 app.post("/skillerbot", async (req, res) => {
-  console.log("✅ /skillerbot hit", req.body); // Add this for debugging
+  console.log("✅ /skillerbot hit", req.body); // Debugging
 
   const userMessage = req.body.message;
 
@@ -31,8 +31,8 @@ app.post("/skillerbot", async (req, res) => {
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: skillerbotPrompt },
-        { role: "user", content: userMessage }
-      ]
+        { role: "user", content: userMessage },
+      ],
     });
 
     res.json({ reply: completion.choices[0].message.content });
@@ -44,6 +44,8 @@ app.post("/skillerbot", async (req, res) => {
 
 // Drill-Specific Q&A Endpoint
 app.post("/ask-drill", async (req, res) => {
+  console.log("✅ /ask-drill hit", req.body); // Debugging
+
   const { question, drillTitle, drillInstructions } = req.body;
 
   const prompt = `
@@ -62,7 +64,7 @@ Provide your best answer below:
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: prompt }]
+      messages: [{ role: "system", content: prompt }],
     });
 
     res.json({ reply: completion.choices[0].message.content });
@@ -72,12 +74,12 @@ Provide your best answer below:
   }
 });
 
-// Health check
+// Health check route
 app.get("/", (req, res) => {
   res.send("✅ SkillerBot server is running!");
 });
 
-// Start the server
+// Start the server on dynamic port from Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ SkillerBot server is running on http://localhost:${PORT}`);
