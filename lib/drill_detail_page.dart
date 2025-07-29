@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:confetti/confetti.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'models/drill.dart';
 
 class DrillDetailPage extends StatefulWidget {
@@ -24,6 +26,11 @@ class _DrillDetailPageState extends State<DrillDetailPage> {
   PlatformFile? _videoFile;
   bool _hasSubmitted = false;
 
+  // AI chat related
+  final TextEditingController _questionController = TextEditingController();
+  String _aiResponse = '';
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +46,7 @@ class _DrillDetailPageState extends State<DrillDetailPage> {
   void dispose() {
     _youtubeController.dispose();
     _confettiController?.dispose();
+    _questionController.dispose();
     super.dispose();
   }
 
@@ -84,6 +92,42 @@ class _DrillDetailPageState extends State<DrillDetailPage> {
     }
   }
 
+  Future<void> _askAI(String question) async {
+    if (question.trim().isEmpty) return;
+
+    setState(() {
+      _isLoading = true;
+      _aiResponse = '';
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse("https://skillerbot-server.onrender.com/skillerbot"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'message': question}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          _aiResponse = data['reply'] ?? 'No response from SkillerBot.';
+        });
+      } else {
+        setState(() {
+          _aiResponse = "❌ Error from SkillerBot.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _aiResponse = "❌ Failed to reach SkillerBot.";
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   Widget _buildInfoRow(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -110,6 +154,8 @@ class _DrillDetailPageState extends State<DrillDetailPage> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
+              // Added padding bottom so last widgets aren't clipped by keyboard or screen edges
+              padding: const EdgeInsets.only(bottom: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -132,10 +178,58 @@ class _DrillDetailPageState extends State<DrillDetailPage> {
                   const SizedBox(height: 10),
                   if (_videoFile != null)
                     Text("Selected: ${_videoFile!.name}", style: const TextStyle(color: Colors.white70)),
+
+                  const SizedBox(height: 30),
+
+                  // AI Chat Section
+                  const Text(
+                    "Need Help? Ask SkillerBot!",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _questionController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: "Ask how to do this drill better...",
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      filled: true,
+                      fillColor: Colors.white12,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send, color: Colors.lightBlueAccent),
+                        onPressed: () {
+                          _askAI(_questionController.text);
+                          _questionController.clear();
+                          FocusScope.of(context).unfocus();
+                        },
+                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    maxLines: null,
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (_isLoading)
+                    const Center(child: CircularProgressIndicator()),
+
+                  if (_aiResponse.isNotEmpty)
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white12,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(_aiResponse, style: const TextStyle(color: Colors.white)),
+                    ),
+
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ),
+
           Align(
             alignment: Alignment.topCenter,
             child: ConfettiWidget(

@@ -39,8 +39,7 @@ flutter:
     - assets/drillslist.csv
     - assets/soccer_header.jpeg
     - assets/weekly_challenges.csv
-    - assets/IronCladS2.png
-    - assets/IronCladS3.png
+
     
   fonts:
     - family: Poppins
