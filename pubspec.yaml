@@ -1,0 +1,53 @@
+name: soccer_skiller
+description: SoccerSkiller app
+
+publish_to: "none"
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  csv: ^5.0.2
+  shared_preferences: ^2.2.2
+  youtube_player_flutter: ^8.1.2
+  file_picker: ^6.1.1
+  confetti: ^0.7.0
+  video_player: ^2.7.0
+  http: ^0.13.6
+  intl: ^0.18.0
+  url_launcher: ^6.2.1
+  
+
+  cupertino_icons: ^1.0.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/Logo2.jpeg
+    - assets/flame.png
+    - assets/juggling.jpg
+    - assets/aerialnew.jpg
+    - assets/fitness.jpg
+    - assets/nobackgroundicon.png
+    - assets/progress1.jpg
+    - assets/progress2.jpg
+    - assets/progress3.jpg
+    - assets/drillslist.csv
+    - assets/soccer_header.jpeg
+    - assets/weekly_challenges.csv
+    - assets/IronCladS2.png
+    - assets/IronCladS3.png
+    
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/Fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/Fonts/Poppins-Black.ttf
+          weight: 900
+        - asset: assets/Fonts/Poppins-ExtraBold.ttf
+          weight: 800

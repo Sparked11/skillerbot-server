@@ -1,0 +1,55 @@
+id,name,description,skill_level,skiller_points
+1,Master the Basics,"Juggle the ball 20 times in a row without dropping.",Beginner,30
+2,Wall Pass Drill,"Pass the ball against a wall 50 times using both feet.",Beginner,30
+3,Dribble Obstacle,"Dribble through 10 cones in under 30 seconds.",Beginner,30
+4,Inside-Outside Touch,"Do 100 inside-outside touches without losing control.",Beginner,30
+5,Shooting Accuracy,"Hit the corners of the goal 10 times from penalty spot.",Beginner,30
+6,Juggle with Thigh,"Juggle the ball using only thighs 15 times.",Beginner,30
+7,Turn Drill,"Perform 20 quick Cruyff turns at speed.",Beginner,30
+8,Quick Feet Ladder,"Complete ladder drill with perfect footwork 3 times.",Beginner,30
+9,Wall Control,"Trap and control 30 passes off the wall without bad touches.",Beginner,30
+10,Side Foot Passes,"Make 100 side-foot passes with a partner.",Beginner,30
+
+11,Weak Foot Juggling,"Juggle the ball 30 times using only your weak foot.",Intermediate,50
+12,Dribble + Shot Combo,"Dribble through cones then shoot accurately 10 times.",Intermediate,50
+13,One-Touch Passing,"Complete 50 one-touch passes with partner or wall.",Intermediate,50
+14,Volley Finish,"Score 10 volleys from tossed balls.",Intermediate,50
+15,Long Pass Accuracy,"Hit a target 20m away 10 times with a long pass.",Intermediate,50
+16,Cross & Finish,"Deliver 10 perfect crosses and finish 10 from crosses.",Intermediate,50
+17,Juggle with Head,"Juggle the ball using only your head for 20 touches.",Intermediate,50
+18,Beat the Defender,"Perform 15 fake-moves & get past a cone as ‘defender’.",Intermediate,50
+19,Fast Dribble,"Dribble end-to-end at full speed with full control.",Intermediate,50
+20,Half-Turn Control,"Control passes and turn quickly 20 times.",Intermediate,50
+
+21,50 Weak Foot Shots,"Take 50 shots on target using only weak foot.",Advanced,75
+22,Freestyle Combo,"Create and perform a 20-second freestyle routine.",Advanced,75
+23,Advanced Juggling,"Juggle alternating feet/thigh/head 50 times.",Advanced,75
+24,Slalom Dribble,"Weave through tight cones at top speed, 5 runs.",Advanced,75
+25,Power Shots,"Score 20 powerful shots into top corners.",Advanced,75
+26,One-Two Sprint,"One-two pass and sprint through 10 times.",Advanced,75
+27,Backheel Control,"Control wall passes with backheel 20 times.",Advanced,75
+28,First-Time Shots,"Take 20 first-time shots from passes.",Advanced,75
+29,Long Distance Goal,"Score from 30m 10 times.",Advanced,75
+30,Overhead Kick,"Attempt and complete 5 overhead kicks.",Advanced,75
+
+31,Penalty Pressure,"Score 20/25 penalties under pressure.",Beginner,30
+32,Shielding Ball,"Shield the ball from partner for 2 minutes.",Beginner,30
+33,Side Volley,"Score 10 side volleys from crossed balls.",Intermediate,50
+34,Half-Volley Shots,"Score 15 half-volleys on target.",Intermediate,50
+35,Cutting Inside,"Beat cone on wing and cut inside to shoot 10 times.",Intermediate,50
+36,Weak Foot Cross,"Deliver 10 good crosses with weak foot.",Intermediate,50
+37,Rabona Cross,"Deliver 5 rabona crosses accurately.",Advanced,75
+38,Outside Foot Pass,"Make 30 accurate outside-foot passes.",Advanced,75
+39,360 Spin Control,"Spin 360 and control pass 15 times.",Advanced,75
+40,Flicks & Tricks,"Perform 10 different tricks cleanly.",Advanced,75
+
+41,Run & Finish,"Sprint & score 10 1-on-1 finishes.",Beginner,30
+42,Headers,"Score 10 headers from crosses.",Beginner,30
+43,Low-Driven Shot,"Score 10 low driven shots into corner.",Intermediate,50
+44,Fake Shot,"Perform fake shot and score 10 times.",Intermediate,50
+45,Drag Back Finish,"Drag back & finish 10 times.",Intermediate,50
+46,Outside Foot Shot,"Score 10 outside-foot curlers.",Advanced,75
+47,Stepovers,"Perform 30 stepovers in 1 min, then shoot.",Advanced,75
+48,No Look Passes,"Complete 15 no-look passes.",Advanced,75
+49,Quick Turns,"Perform 20 quick turns in a small square.",Beginner,30
+50,Double Nutmeg,"Nutmeg partner or cone twice in session.",Advanced,75
