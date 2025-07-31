@@ -4,14 +4,23 @@ const dotenv = require("dotenv");
 const OpenAI = require("openai");
 
 dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ Check for OpenAI API key
+if (!process.env.OPENAI_API_KEY) {
+  console.error("❌ OPENAI_API_KEY missing in environment variables.");
+  process.exit(1);
+}
+
+// ✅ Initialize OpenAI
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// ✅ System prompt for SkillerBot
 const skillerbotPrompt = `
 You are SkillerBot, a motivational and tactical soccer coach for the SoccerSkiller app.
 Only answer questions about soccer drills, training, fitness, endurance, or motivation.
@@ -20,35 +29,44 @@ If a user asks about anything else (like jokes, school, or food), say:
 Never invent drills. Be short, clear, and supportive. Use emojis like ⚽🔥✅💪.
 `;
 
-// General Chat Endpoint
+// ⚽ General chat endpoint
 app.post("/skillerbot", async (req, res) => {
-  console.log("✅ /skillerbot hit", req.body); // Debugging
+  const { message } = req.body;
 
-  const userMessage = req.body.message;
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+
+  console.log("📨 Received /skillerbot message:", message);
 
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: skillerbotPrompt },
-        { role: "user", content: userMessage },
+        { role: "user", content: message },
       ],
     });
 
-    res.json({ reply: completion.choices[0].message.content });
-  } catch (err) {
-    console.error("❌ Error:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    const reply = completion.choices[0]?.message?.content || "⚠️ No response.";
+    res.json({ reply });
+  } catch (error) {
+    console.error("❌ OpenAI API error:", error);
+    res.status(500).json({ error: "SkillerBot failed to respond." });
   }
 });
 
-// Drill-Specific Q&A Endpoint
+// ⚽ Drill-specific Q&A endpoint
 app.post("/ask-drill", async (req, res) => {
-  console.log("✅ /ask-drill hit", req.body); // Debugging
-
   const { question, drillTitle, drillInstructions } = req.body;
 
-  const prompt = `
+  if (!question || !drillTitle || !drillInstructions) {
+    return res.status(400).json({ error: "Missing required fields." });
+  }
+
+  console.log("📨 Received /ask-drill:", { question, drillTitle });
+
+  const formattedPrompt = `
 You are SkillerBot, a motivational and tactical soccer coach for the SoccerSkiller app.
 Only answer questions about soccer drills, training, fitness, endurance, or motivation.
 If a user asks about anything else (like jokes, school, or food), say:
@@ -64,23 +82,24 @@ Provide your best answer below:
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: prompt }],
+      messages: [{ role: "system", content: formattedPrompt }],
     });
 
-    res.json({ reply: completion.choices[0].message.content });
-  } catch (err) {
-    console.error("❌ Drill AI Error:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    const reply = completion.choices[0]?.message?.content || "⚠️ No response.";
+    res.json({ reply });
+  } catch (error) {
+    console.error("❌ Drill AI error:", error);
+    res.status(500).json({ error: "Failed to get drill advice from SkillerBot." });
   }
 });
 
-// Health check route
+// ✅ Health check
 app.get("/", (req, res) => {
   res.send("✅ SkillerBot server is running!");
 });
 
-// Start the server on dynamic port from Render
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ SkillerBot server is running on http://localhost:${PORT}`);
+  console.log(`✅ SkillerBot running on http://localhost:${PORT}`);
 });
